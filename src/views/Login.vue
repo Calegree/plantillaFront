@@ -1,31 +1,35 @@
 <script setup>
-import {ref} from 'vue';
-import axios from 'axios'
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const loginUser = async () => {
-    try {
-        const formData = {
-            username:username.value,
-            password:password.value
-        }
-        console.log(formData);
+  try {
+    const formData = {
+      username: username.value,
+      password: password.value,
+    };
+    console.log(formData);
 
-        const response = await axios.post(
-            "http://localhost:8080/auth/login",
-            formData
-        );
-        console.log(response.data);
-    } catch (error) {
-        console.error("Error al enviar el login: ", error)
-    }
+    const response = await axios.post(
+      "http://localhost:8080/auth/login",
+      formData
+    );
+    console.log(response.data);
 
-}
-
+    // Verificar si el login fue exitoso
+   
+      router.push({ name: "homepage" });
+      
+  } catch (error) {
+    console.error("Error al enviar el login: ", error);
+  }
+};
 
 const username = ref("");
 const password = ref("");
-
-
 </script>
 
 <template>
@@ -36,7 +40,7 @@ const password = ref("");
           >username</span
         >
         <input
-        v-model="username"
+          v-model="username"
           type="text"
           class="form-control"
           aria-label="Sizing example input"
@@ -48,7 +52,7 @@ const password = ref("");
           >password</span
         >
         <input
-        v-model="password"
+          v-model="password"
           type="text"
           class="form-control"
           aria-label="Sizing example input"
